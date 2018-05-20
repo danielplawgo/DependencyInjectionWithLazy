@@ -21,11 +21,15 @@ namespace DependencyInjectionWithLazy.Logics
             get { return _validator.Value; }
         }
 
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         public UserLogic(Lazy<IUserRepository> userRepository,
             Lazy<UserValidator> validator)
         {
             _userRepository = userRepository;
             _validator = validator;
+
+            _logger.Info("UserLogic.ctor");
         }
 
         public Result<User> Add(User user)
