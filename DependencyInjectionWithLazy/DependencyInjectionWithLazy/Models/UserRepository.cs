@@ -7,11 +7,15 @@ namespace DependencyInjectionWithLazy.Models
 {
     public class UserRepository : IUserRepository
     {
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         protected DataContext Db { get; set; }
 
         public UserRepository(DataContext db)
         {
-            Db = db;    
+            Db = db;  
+            
+            _logger.Info("UserRepository.ctor");
         }
 
         public void Add(User user)
