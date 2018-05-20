@@ -11,11 +11,15 @@ namespace DependencyInjectionWithLazy.Controllers
 {
     public class UsersController : Controller
     {
-        protected IUserLogic UserLogic { get; set; }
-
-        public UsersController(IUserLogic userLogic)
+        private Lazy<IUserLogic> _userLogic;
+        protected IUserLogic UserLogic
         {
-            UserLogic = userLogic;
+            get { return _userLogic.Value; }
+        }
+
+        public UsersController(Lazy<IUserLogic> userLogic)
+        {
+            _userLogic = userLogic;
         }
 
         // GET: Users

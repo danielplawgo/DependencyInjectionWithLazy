@@ -7,11 +7,15 @@ namespace DependencyInjectionWithLazy.Models
 {
     public class UserRepository : IUserRepository
     {
-        protected DataContext Db { get; set; }
-
-        public UserRepository(DataContext db)
+        private Lazy<DataContext> _db;
+        protected DataContext Db
         {
-            Db = db;    
+            get { return _db.Value; }
+        }
+
+        public UserRepository(Lazy<DataContext> db)
+        {
+            _db = db;    
         }
 
         public void Add(User user)

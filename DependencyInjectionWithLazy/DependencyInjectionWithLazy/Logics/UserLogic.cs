@@ -9,15 +9,23 @@ namespace DependencyInjectionWithLazy.Logics
 {
     public class UserLogic : IUserLogic
     {
-        protected IUserRepository UserRepository { get; set; }
-
-        protected UserValidator Validator { get; set; }
-
-        public UserLogic(IUserRepository userRepository,
-            UserValidator validator)
+        private Lazy<IUserRepository> _userRepository;
+        protected IUserRepository UserRepository
         {
-            UserRepository = userRepository;
-            Validator = validator;
+            get { return _userRepository.Value; }
+        }
+
+        private Lazy<UserValidator> _validator;
+        protected UserValidator Validator
+        {
+            get { return _validator.Value; }
+        }
+
+        public UserLogic(Lazy<IUserRepository> userRepository,
+            Lazy<UserValidator> validator)
+        {
+            _userRepository = userRepository;
+            _validator = validator;
         }
 
         public Result<User> Add(User user)
