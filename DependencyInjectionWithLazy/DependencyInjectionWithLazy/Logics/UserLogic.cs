@@ -13,11 +13,15 @@ namespace DependencyInjectionWithLazy.Logics
 
         protected UserValidator Validator { get; set; }
 
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         public UserLogic(IUserRepository userRepository,
             UserValidator validator)
         {
             UserRepository = userRepository;
             Validator = validator;
+
+            _logger.Info("UserLogic.ctor");
         }
 
         public Result<User> Add(User user)
